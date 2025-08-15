@@ -1,11 +1,22 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Card from './components/Card';
 import Search from './components/Search';
+import {getComics} from "./tools/appwrite.js";
 
 const App = () => {
 
     const [hasLiked, setHasLiked] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [results, setResults] = useState([]);
+
+    useEffect(() => {
+        if (!searchTerm.trim()) return;
+        (async () => {
+            const data = await getComics(searchTerm);
+            setResults(data.results || []);
+        })();
+    }, [searchTerm]);
+
 
     return (
 

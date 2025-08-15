@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 
 export default async ({ req, res, env }) => {
-    const search = req.query.q || "batman";
+    const { q } = req.payload ? JSON.parse(req.payload) : {};
+    const search = q || "batman";
     const API_KEY = env.VITE_COMIC_API_KEY;
 
     const url = `https://comicvine.gamespot.com/api/search/?api_key=${API_KEY}&format=json&query=${encodeURIComponent(search)}&resources=volume`;
